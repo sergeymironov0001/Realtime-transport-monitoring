@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>CyberProphets</groupId>
-  <artifactId>Realtime-transport-monitoring-service</artifactId>
+  <artifactId>Realtime-transport-monitoring</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Realtime-transport-monitoring-service Maven Webapp</name>
+  <name>Realtime-transport-monitoring Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -16,6 +16,6 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>Realtime-transport-monitoring-service</finalName>
+    <finalName>Realtime-transport-monitoring</finalName>
   </build>
 </project>
