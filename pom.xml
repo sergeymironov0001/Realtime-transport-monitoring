@@ -6,7 +6,7 @@
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>Realtime-transport-monitoring Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -15,6 +15,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
   <build>
     <finalName>Realtime-transport-monitoring</finalName>
   </build>
