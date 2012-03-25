@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.0">
+	<name>Example Gpx</name>
+	<wpt lat="46.57638889" lon="8.89263889">
+		<ele>2372</ele>
+		<name>LAGORETICO1</name>
+	</wpt>
+	<trk>
+		<name>Example Gpx1</name><number>1</number>
+		<trkseg>
+			<trkpt lon="35.90899" lat="56.85977"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			<trkpt lon="35.90693" lat="56.85545"><ele>2376</ele><time>2007-10-14T10:09:57Z</time></trkpt>
+			<trkpt lon="35.90701" lat="56.85287"><ele>2376</ele><time>2007-10-14T10:09:57Z</time></trkpt>
+			<trkpt lon="35.90693" lat="56.84991"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			<trkpt lon="35.90624" lat="56.84794"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			<trkpt lon="35.90538" lat="56.84639"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			<trkpt lon="35.89388" lat="56.83733"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+		</trkseg>
+	
+	</trk>
+	<trk>
+		<name>Example Gpx1</name><number>1</number>
+		<trkseg>
+			<trkpt lon="35.92719" lat="56.85492"><ele>2376</ele><time>2007-10-14T10:09:57Z</time></trkpt>
+			<trkpt lon="35.94110" lat="56.84959"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			<trkpt lon="35.94324" lat="56.84875"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			<trkpt lon="35.94332" lat="56.84816"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			<trkpt lon="35.93025" lat="56.83796"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			<trkpt lon="35.92023" lat="56.83033"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			<trkpt lon="35.90684" lat="56.83552"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			<trkpt lon="35.90853" lat="56.83691"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+		</trkseg>
+	
+	</trk>
+
+	<trk>
+		  <name>Example Gpx2</name><number>2</number>
+		  <trkseg>
+		  	  <trkpt lon="35.86126" lat="56.85422"><ele>2376</ele><time>2007-10-14T10:09:57Z</time></trkpt>
+			  <trkpt lon="35.87654" lat="56.85568"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			  <trkpt lon="35.87628" lat="56.85165"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			  <trkpt lon="35.87860" lat="56.85120"><ele>2376</ele><time>2007-10-14T10:09:57Z</time></trkpt>
+			  <trkpt lon="35.88856" lat="56.84965"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			  <trkpt lon="35.88641" lat="56.83958"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			  <trkpt lon="35.90332" lat="56.83301"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+			  <trkpt lon="35.91889" lat="56.84491"><ele>2375</ele><time>2007-10-14T10:10:52Z</time></trkpt>
+		  </trkseg>
+	</trk>
+</gpx>
