@@ -423,9 +423,10 @@
 		map.addControl(addStartTraceMarkerOnClickControl);
 		
 		
-		var d = new OpenLayers.Control.DragFeature(markers);
-		map.addControl(d);
-		d.activate();
+
+		// var d = new OpenLayers.Control.DragFeature(markers);
+		// map.addControl(d);
+		// d.activate();
 		// ------------------------------
 		// Добавляем обработчик для нажатия кнопки добавления маркера маршрута
 		document.getElementById("addMarkerButton").onclick = function() {
