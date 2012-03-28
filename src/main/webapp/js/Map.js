@@ -1,7 +1,16 @@
 (function() {
 	var map;
 	var markers;
+	// Controls------------------------------------
 	var routeDrawControl;
+	var addMarkerOnClickControl;
+	var showClickCoordinatesControl;
+	var addFinishTraceMarkerOnClickControl;
+	var addStartTraceMarkerOnClickControl;
+	// ------------------------------------
+	var startTracePosition;
+	var finishTracePosition;
+	// ------------------------------------
 	var objectsPositionAjaxRequester = null;
 	var MAP_PORJECTION = new OpenLayers.Projection("EPSG:900913");
 	var MAP_DISPLAY_PROJECTION = new OpenLayers.Projection("EPSG:4326");
@@ -16,7 +25,8 @@
 	/**
 	 * 
 	 * @param viewPortPosition -
-	 *            РїРѕР·РёС†РёСЏ РЅР° РїР°РЅРµР»Рё РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РєР°СЂС‚С‹
+	 *            РїРѕР·РёС†РёСЏ РЅР° РїР°РЅРµР»Рё РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ
+	 *            РєР°СЂС‚С‹
 	 * 
 	 * @retrun - РєРѕРѕСЂРґРёРЅР°С‚С‹ С‚РѕС‡РєРё РЅР° РєР°СЂС‚Рµ
 	 */
@@ -24,6 +34,52 @@
 		var lonlat = map.getLonLatFromViewPortPx(viewPortPosition);
 		lonlat.transform(map.projection, map.displayProjection);
 		return lonlat;
+	}
+
+	/**
+	 * Создать маркер начала маршрута
+	 * 
+	 * @param id -
+	 * @param position -
+	 *            позиция объекта на карте (OpenLayers.LonLat);
+	 */
+	function createStartTraceMarker(id, position) {
+		var lonlat = new OpenLayers.LonLat(position.lon, position.lat)
+				.transform(MAP_DISPLAY_PROJECTION, map.getProjectionObject());
+		var marker = new OpenLayers.Marker(lonlat);
+		marker.id = id;
+		return marker;
+	}
+
+	/**
+	 * Создать маркер окончания маршрута маршрута
+	 * 
+	 * @param id -
+	 * @param position -
+	 *            позиция объекта на карте (OpenLayers.LonLat);
+	 */
+	function createFinishTraceMarker(id, position) {
+		return createStartTraceMarker(id, position);
+	}
+
+	/**
+	 * Создать маркер окончания маршрута маршрута
+	 * 
+	 * @param id -
+	 * @param position -
+	 *            позиция объекта на карте (OpenLayers.LonLat);
+	 */
+	function createMarker(id, position) {
+		return createStartTraceMarker(id, position);
+	}
+	/**
+	 * Добавить маркер на карту
+	 * 
+	 * @param marker -
+	 *            маркер (OpenLayers.Marker)
+	 */
+	function addMarker(marker) {
+		markers.addMarker(marker);
 	}
 
 	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ OpenLayers.loadURL
@@ -36,7 +92,8 @@
 	// });
 
 	/**
-	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	 * пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	 * 
 	 * @param message -
 	 *            пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
@@ -46,44 +103,51 @@
 		out.innerHTML = message;
 	}
 
-	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
-	OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
-		defaultHandlerOptions : {
-			'single' : true,
-			'double' : false,
-			'pixelTolerance' : 0,
-			'stopSingle' : false,
-			'stopDouble' : false
-		},
-
-		initialize : function(options) {
-			this.handlerOptions = OpenLayers.Util.extend({},
-					this.defaultHandlerOptions);
-			OpenLayers.Control.prototype.initialize.apply(this, arguments);
-			this.handler = new OpenLayers.Handler.Click(this, {
-				'click' : this.onClick
-			}, this.handlerOptions);
-		},
-
-		onClick : function(evt) {
-			var point = convertViewPortPositionToMapPosition(evt.xy)
-			outputMessage("You clicked near " + +point.lon + " E, " + point.lat
-					+ " N");
-		}
-
-	});
-
 	/**
-	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+	 * Добавляем обработчики событий мыши
+	 */
+	function createShowClickCoordinatesControl() {
+		OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
+			defaultHandlerOptions : {
+				'single' : true,
+				'double' : false,
+				'pixelTolerance' : 0,
+				'stopSingle' : false,
+				'stopDouble' : false
+			},
+
+			initialize : function(options) {
+				this.handlerOptions = OpenLayers.Util.extend({},
+						this.defaultHandlerOptions);
+				OpenLayers.Control.prototype.initialize.apply(this, arguments);
+				this.handler = new OpenLayers.Handler.Click(this, {
+					'click' : this.onClick
+				}, this.handlerOptions);
+			},
+
+			onClick : function(evt) {
+				var point = convertViewPortPositionToMapPosition(evt.xy)
+				outputMessage("You clicked near " + +point.lon + " E, "
+						+ point.lat + " N");
+			}
+
+		});
+		return new OpenLayers.Control.Click();
+	}
+	/**
+	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 	 * 
 	 * @param routesName -
 	 *            пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	 * @param routesData -
 	 *            пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	 * @param routesDataFormat -
-	 *            пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ OpenLayers.Format)
+	 *            пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+	 *            пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ OpenLayers.Format)
 	 * @param mapStyle -
-	 *            пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ OpenLayers.StyleMap)
+	 *            пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	 *            пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ OpenLayers.StyleMap)
 	 */
 	function outputRoutes(routesName, routesDataUrl, routesDataFormat, mapStyle) {
 		var layer = new OpenLayers.Layer.Vector(routesName, {
@@ -99,17 +163,20 @@
 	}
 
 	/**
-	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	 * пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 	 * 
 	 * @param routeName -
 	 *            пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	 * @param routesData -
 	 *            пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	 * @param routesDataFormat -
-	 *            пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ OpenLayers.Format)
+	 *            пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	 *            (пїЅпїЅпїЅ OpenLayers.Format)
 	 */
 	function outputRoute(routeName, routeData, routeDataFormat) {
-		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		var style = new OpenLayers.Style({
 			fillColor : "red"
 		}, {
@@ -146,7 +213,8 @@
 		outputRoutes(routeName, routeData, routeDataFormat, styleMap);
 	}
 
-	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ osm
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	// пїЅпїЅпїЅпїЅпїЅ osm
 	function initOSMMap() {
 		var extent = new OpenLayers.Bounds(restrictedAreaBounds.left,
 				restrictedAreaBounds.bottom, restrictedAreaBounds.right,
@@ -171,8 +239,13 @@
 		map.addLayer(new OpenLayers.Layer.OSM());
 		map.zoomToExtent(extent);
 
+		// Инициализация маркеров на карте
+		markers = new OpenLayers.Layer.Markers("Markers");
+		map.addLayer(markers);
+
 		// ------------------------------------------------------
-		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		// var lgpx = new OpenLayers.Layer.GML("Traces", "gpx/traces.gpx", {
 		// format : OpenLayers.Format.GPX,
 		// // style : {
@@ -209,15 +282,167 @@
 		// });
 		// map.addControl(Navigation);
 
-		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
-		var click = new OpenLayers.Control.Click();
-		map.addControl(click);
-		click.activate();
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ
+		// пїЅпїЅпїЅпїЅпїЅ
+
 	}
 
-	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	/**
+	 * Функция создает обработчик клика мыши по карте. После клика на карте
+	 * появляется маркер
+	 */
+	function createAddMarkerOnClickControl() {
+		OpenLayers.Control.Click = OpenLayers.Control.Click = OpenLayers
+				.Class(
+						OpenLayers.Control,
+						{
+							defaultHandlerOptions : {
+								'single' : true,
+								'double' : false,
+								'pixelTolerance' : 0,
+								'stopSingle' : false,
+								'stopDouble' : false
+							},
+
+							initialize : function(options) {
+								this.handlerOptions = OpenLayers.Util.extend(
+										{}, this.defaultHandlerOptions);
+								OpenLayers.Control.prototype.initialize.apply(
+										this, arguments);
+								this.handler = new OpenLayers.Handler.Click(
+										this, {
+											'click' : this.onClick
+										}, this.handlerOptions);
+							},
+
+							onClick : function(evt) {
+								var point = convertViewPortPositionToMapPosition(evt.xy)
+								var marker = createMarker(12, point);
+								addMarker(marker);
+								addMarkerOnClickControl.deactivate();
+							}
+
+						});
+		return new OpenLayers.Control.Click();
+	}
+
+	function createAddFinishTraceMarkerOnClickControl() {
+		OpenLayers.Control.Click = OpenLayers.Control.Click = OpenLayers
+				.Class(
+						OpenLayers.Control,
+						{
+							defaultHandlerOptions : {
+								'single' : true,
+								'double' : false,
+								'pixelTolerance' : 0,
+								'stopSingle' : false,
+								'stopDouble' : false
+							},
+
+							initialize : function(options) {
+								this.handlerOptions = OpenLayers.Util.extend(
+										{}, this.defaultHandlerOptions);
+								OpenLayers.Control.prototype.initialize.apply(
+										this, arguments);
+								this.handler = new OpenLayers.Handler.Click(
+										this, {
+											'click' : this.onClick
+										}, this.handlerOptions);
+							},
+
+							onClick : function(evt) {
+								finishTracePosition = convertViewPortPositionToMapPosition(evt.xy)
+								var marker = createFinishTraceMarker(12,
+										finishTracePosition);
+								addMarker(marker);
+								addFinishTraceMarkerOnClickControl.deactivate();
+
+								var url = createRouteConstructUrl(
+										startTracePosition,
+										finishTracePosition, "foot", "true");
+								outputRoute("Route", url,
+										new OpenLayers.Format.KML());
+
+							}
+						});
+		return new OpenLayers.Control.Click();
+	}
+
+	function createAddStartTraceMarkerOnClickControl() {
+		OpenLayers.Control.Click = OpenLayers.Control.Click = OpenLayers
+				.Class(
+						OpenLayers.Control,
+						{
+							defaultHandlerOptions : {
+								'single' : true,
+								'double' : false,
+								'pixelTolerance' : 0,
+								'stopSingle' : false,
+								'stopDouble' : false
+							},
+
+							initialize : function(options) {
+								this.handlerOptions = OpenLayers.Util.extend(
+										{}, this.defaultHandlerOptions);
+								OpenLayers.Control.prototype.initialize.apply(
+										this, arguments);
+								this.handler = new OpenLayers.Handler.Click(
+										this, {
+											'click' : this.onClick
+										}, this.handlerOptions);
+							},
+
+							onClick : function(evt) {
+								startTracePosition = convertViewPortPositionToMapPosition(evt.xy)
+								var marker = createStartTraceMarker(12,
+										startTracePosition);
+								addMarker(marker);
+								addStartTraceMarkerOnClickControl.deactivate();
+								addFinishTraceMarkerOnClickControl.activate();
+							}
+						});
+		return new OpenLayers.Control.Click();
+	}
+
+	function initControls() {
+
+		showClickCoordinatesControl = createShowClickCoordinatesControl();
+		map.addControl(showClickCoordinatesControl);
+		showClickCoordinatesControl.activate();
+
+		addMarkerOnClickControl = createAddMarkerOnClickControl();
+		map.addControl(addMarkerOnClickControl);
+
+		// ------------Routing------------------
+		addFinishTraceMarkerOnClickControl = createAddFinishTraceMarkerOnClickControl();
+		map.addControl(addFinishTraceMarkerOnClickControl);
+
+		addStartTraceMarkerOnClickControl = createAddStartTraceMarkerOnClickControl();
+		map.addControl(addStartTraceMarkerOnClickControl);
+		
+		
+		var d = new OpenLayers.Control.DragFeature(markers);
+		map.addControl(d);
+		d.activate();
+		// ------------------------------
+		// Добавляем обработчик для нажатия кнопки добавления маркера маршрута
+		document.getElementById("addMarkerButton").onclick = function() {
+			addMarkerOnClickControl.activate();
+		}
+
+		// Добавляем обработчик для нажатия кнопки прокалдки маршрута
+		document.getElementById("constructTraceButton").onclick = function() {
+			addStartTraceMarkerOnClickControl.activate();
+		}
+	}
+
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	window.onload = function() {
 		initOSMMap();
+		initControls();
 
 		// getNewObjectsPosition();
 
@@ -241,11 +466,10 @@
 
 		// Construct route example
 		var startPoint = new OpenLayers.LonLat(35.90027, 56.83752);
-		var finishPoint = new OpenLayers.LonLat(35.93006, 56.85686);
+		var finishPoint = new OpenLayers.LonLat(35.80504, 56.84477);
 		var url = createRouteConstructUrl(startPoint, finishPoint, "foot",
 				"true");
-		outputMessage(url);
-		outputRoute("Route", url, new OpenLayers.Format.KML());
+		outputRoute("Test route", url, new OpenLayers.Format.KML());
 
 	}
 
