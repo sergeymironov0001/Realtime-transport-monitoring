@@ -1,4 +1,4 @@
-package controller.servlets.routes;
+package realtimetransportmonitoring.controller.servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;

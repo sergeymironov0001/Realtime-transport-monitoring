@@ -421,8 +421,6 @@
 
 		addStartTraceMarkerOnClickControl = createAddStartTraceMarkerOnClickControl();
 		map.addControl(addStartTraceMarkerOnClickControl);
-		
-		
 
 		// var d = new OpenLayers.Control.DragFeature(markers);
 		// map.addControl(d);

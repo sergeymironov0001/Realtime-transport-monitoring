@@ -1,9 +1,12 @@
-package controller.servlets.routes;
+package realtimetransportmonitoring.controller.servlets;
 
 import javax.servlet.http.HttpServletRequest;
 
-import model.Point;
-import model.RouteType;
+import realtimetransportmonitoring.domain.Point;
+import realtimetransportmonitoring.domain.RouteType;
+
+
+
 
 /**
  * Класс предоставляющий данные для прокладки маршрута

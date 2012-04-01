@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+	<!-- services -->
+
+	<!-- <bean id="core" class="core.Core"> <property name="accountDao" ref="accountDao" 
+		/> <property name="itemDao" ref="itemDao" /> </bean> -->
+
+	<!-- more bean definitions for services go here -->
+
+	<!-- dataSource -->
+	<!-- <bean id="dataSource" class="dao.connectionmanager.ConnectionManager" 
+		destroy-method="close"> <property name="driverClassName" value="org.postgresql.Driver" 
+		/> <property name="url" value="jdbc:postgresql://200.0.11.1:5432/test_db" 
+		/> <property name="username" value="u0300_admin" /> <property name="password" 
+		value="u0300_admin" /> <property name="url" value="jdbc:postgresql://localhost:5432/studing" 
+		/> <property name="driverClassName" value="org.sqlite.JDBC" /> <property 
+		name="url" value="jdbc:sqlite:./data/tododatabase.sqlite" /> <property name="maxActive" 
+		value="20" /> <property name="maxIdle" value="5" /> </bean> -->
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://200.0.11.1:5432/test_db" />
+		<property name="username" value="u0300_admin" />
+		<property name="password" value="u0300_admin" />
+		<!-- <property name="url" value="jdbc:postgresql://localhost:5432/studing" 
+			/> <property name="username" value="mironovsv" /> <property name="password" 
+			value="Dragnir0714" /> -->
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<context:component-scan base-package="dao">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven mode="aspectj"
+		transaction-manager="transactionManager" />
+
+
+	<!-- <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> 
+		<property name="dataSource" ref="dataSource" /> <property name="annotatedClasses"> 
+		<list> <value>logic.tasks.Task</value> <value>logic.tasks.TasksList</value> 
+		</list> </property> <property name="annotatedPackages"> <list> <value>logic.tasks</value> 
+		</list> </property> <property name="hibernateProperties"> <props> <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop> 
+		<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> 
+		<prop key="hibernate.cache.use_query_cache">false</prop> <prop key="hibernate.cache.use_second_level_cache">false</prop> 
+		<prop key="hibernate.connection.aggressive_release">false</prop> <prop key="hibernate.validator.autoregister_listeners">false</prop> 
+		<prop key="hibernate.jdbc.batch_size">100</prop> <prop key="hibernate.show_sql">false</prop> 
+		</props> </property> </bean> -->
+
+	<!-- entityManagerFactory -->
+
+	<!-- <bean id="tasksListDAO" class="logic.dao.TasksListDAO"> <property name="sessionFactory" 
+		ref="sessionFactory" /> </bean> -->
+
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource">
+			<bean
+				class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+		<property name="transactionInterceptor" ref="transactionInterceptor" />
+	</bean>
+
+	<!-- application logic -->
+	<bean id="model" class="models.ToDoModel">
+		<property name="dao" ref="toDoDAOSerialization" />
+		<!-- <property name="dao" ref="toDoDAOJPA" /> -->
+	</bean>
+
+	<bean id="controller" class="controllers.Controller">
+		<property name="model" ref="model" />
+		<property name="ui" ref="ui" />
+	</bean>
+	<!-- application UI -->
+
+
+	<bean id="ui" class="ui.UI">
+		<property name="model" ref="model" />
+		<property name="controller" ref="controller" />
+	</bean>
+
+</beans>
