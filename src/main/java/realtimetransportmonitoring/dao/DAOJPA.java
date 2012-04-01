@@ -1,6 +1,7 @@
 package realtimetransportmonitoring.dao;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,13 @@ public class DAOJPA implements IDAO {
 	@Override
 	public void remove(Route route) {
 		sessionFactory.getCurrentSession().delete(route);
+	}
+
+	@Override
+	public void remove(String routeID) {
+		Route route = (Route) sessionFactory.getCurrentSession().load(
+				Route.class, UUID.fromString(routeID));
+		remove(route);
 	}
 
 }

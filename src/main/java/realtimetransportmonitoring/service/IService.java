@@ -4,7 +4,6 @@ import java.util.List;
 
 import realtimetransportmonitoring.domain.Route;
 
-
 /**
  * Интерфейс сервиса
  * 
@@ -17,4 +16,6 @@ public interface IService {
 	public void save(Route route);
 
 	public void remove(Route route);
+
+	public void remove(String routeID);
 }

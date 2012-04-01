@@ -17,5 +17,7 @@ public interface IDAO {
 
 	public void save(Route route);
 
+	public void remove(String routeID);
+
 	public void remove(Route route);
 }

@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import realtimetransportmonitoring.dao.IDAO;
 import realtimetransportmonitoring.domain.Route;
 
-
-
 /**
  * Класс сервиса
  * 
@@ -51,6 +49,12 @@ class Service implements IService {
 	@Transactional
 	public void remove(Route route) {
 		getDao().remove(route);
+	}
+
+	@Override
+	@Transactional
+	public void remove(String routeID) {
+		getDao().remove(routeID);
 	}
 
 }
