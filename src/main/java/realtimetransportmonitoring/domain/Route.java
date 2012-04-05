@@ -1,7 +1,7 @@
 package realtimetransportmonitoring.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -51,13 +51,13 @@ public class Route {
 	 * Точки задающие маршрут
 	 */
 	@OneToMany(targetEntity = Point.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Point> points;
+	private List<Point> points;
 
 	public Route() {
 		id = UUID.randomUUID();
 		name = new String();
 		description = new String();
-		points = new HashSet<Point>();
+		points = new ArrayList<Point>();
 		type = RouteType.UNDEFINED;
 	}
 
@@ -91,11 +91,11 @@ public class Route {
 		this.description = description;
 	}
 
-	public Set<Point> getPoints() {
+	public List<Point> getPoints() {
 		return points;
 	}
 
-	public void setPoints(Set<Point> points) {
+	public void setPoints(List<Point> points) {
 		this.points = points;
 	}
 

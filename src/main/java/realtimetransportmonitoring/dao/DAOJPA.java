@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import realtimetransportmonitoring.domain.Route;
+import realtimetransportmonitoring.domain.Transport;
 
 /**
  * Класс слоя доступа к объектам, основанный на JPA
@@ -47,20 +48,55 @@ public class DAOJPA implements IDAO {
 	}
 
 	@Override
-	public void save(Route route) {
+	public Route getRoute(String id) {
+		Route route = (Route) sessionFactory.getCurrentSession().load(
+				Route.class, UUID.fromString(id));
+		return route;
+	}
+
+	@Override
+	public void saveRoute(Route route) {
 		sessionFactory.getCurrentSession().save(route);
 	}
 
 	@Override
-	public void remove(Route route) {
+	public void removeRoute(Route route) {
 		sessionFactory.getCurrentSession().delete(route);
 	}
 
 	@Override
-	public void remove(String routeID) {
-		Route route = (Route) sessionFactory.getCurrentSession().load(
-				Route.class, UUID.fromString(routeID));
-		remove(route);
+	public void removeRoute(String id) {
+
+		removeRoute(getRoute(id));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Transport> getAllTransports() {
+		return getSessionFactory().getCurrentSession()
+				.createQuery("from Transport").list();
+	}
+
+	@Override
+	public void saveTransport(Transport transport) {
+		sessionFactory.getCurrentSession().save(transport);
+	}
+
+	@Override
+	public void removeTransport(String id) {
+		removeTransport(getTransport(id));
+	}
+
+	@Override
+	public void removeTransport(Transport transport) {
+		sessionFactory.getCurrentSession().delete(transport);
+	}
+
+	@Override
+	public Transport getTransport(String id) {
+		Transport transport = (Transport) sessionFactory.getCurrentSession()
+				.load(Transport.class, UUID.fromString(id));
+		return transport;
 	}
 
 }

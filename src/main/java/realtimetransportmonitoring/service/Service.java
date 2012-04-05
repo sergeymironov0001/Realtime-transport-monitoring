@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import realtimetransportmonitoring.dao.IDAO;
 import realtimetransportmonitoring.domain.Route;
+import realtimetransportmonitoring.domain.Transport;
 
 /**
  * Класс сервиса
@@ -35,8 +36,8 @@ class Service implements IService {
 
 	@Override
 	@Transactional
-	public void save(Route route) {
-		getDao().save(route);
+	public void saveRoute(Route route) {
+		getDao().saveRoute(route);
 	}
 
 	@Override
@@ -47,14 +48,51 @@ class Service implements IService {
 
 	@Override
 	@Transactional
-	public void remove(Route route) {
-		getDao().remove(route);
+	public void removeRoute(Route route) {
+		getDao().removeRoute(route);
 	}
 
 	@Override
 	@Transactional
-	public void remove(String routeID) {
-		getDao().remove(routeID);
+	public void removeRoute(String routeID) {
+		getDao().removeRoute(routeID);
+	}
+
+	@Override
+	@Transactional
+	public List<Transport> getAllTransports() {
+		return getDao().getAllTransports();
+	}
+
+	@Override
+	@Transactional
+	public void saveTransport(Transport transport) {
+		getDao().saveTransport(transport);
+	}
+
+	@Override
+	@Transactional
+	public void removeTransport(Transport transport) {
+		getDao().removeTransport(transport);
+
+	}
+
+	@Override
+	@Transactional
+	public void removeTransport(String transportID) {
+		getDao().removeTransport(transportID);
+	}
+
+	@Override
+	@Transactional
+	public Route getRoute(String id) {
+		return getDao().getRoute(id);
+	}
+
+	@Override
+	@Transactional
+	public Transport getTransport(String id) {
+		return getDao().getTransport(id);
 	}
 
 }

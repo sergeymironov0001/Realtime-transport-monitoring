@@ -3,6 +3,7 @@ package realtimetransportmonitoring.dao;
 import java.util.List;
 
 import realtimetransportmonitoring.domain.Route;
+import realtimetransportmonitoring.domain.Transport;
 
 /**
  * Интерфейс, описывающий классы слоя доступа к объектам
@@ -15,9 +16,21 @@ public interface IDAO {
 
 	public List<Route> getAllRoutes();
 
-	public void save(Route route);
+	public Route getRoute(String id);
 
-	public void remove(String routeID);
+	public void saveRoute(Route route);
 
-	public void remove(Route route);
+	public void removeRoute(String id);
+
+	public void removeRoute(Route route);
+
+	public List<Transport> getAllTransports();
+
+	public Transport getTransport(String id);
+
+	public void saveTransport(Transport transport);
+
+	public void removeTransport(String id);
+
+	public void removeTransport(Transport transport);
 }

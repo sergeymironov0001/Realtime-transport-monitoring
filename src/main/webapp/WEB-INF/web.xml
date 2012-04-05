@@ -57,6 +57,19 @@
 	</filter-mapping>
 
 
+	<servlet>
+		<servlet-name>statCont</servlet-name>
+		<servlet-class>
+			org.apache.catalina.servlets.DefaultServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>statCont</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+
 	<!-- Страницы приветствия -->
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
