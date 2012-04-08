@@ -33,6 +33,11 @@
 		<td><form:errors path="routeID"  /></td>
     </tr>
     <tr>
+        <td><form:label path="number"><spring:message code="label.carNumber"/></form:label></td>
+        <td><form:input path="number" id="number"/></td>
+        <td><form:errors path="number" /></td>
+    </tr>
+    <tr>
         <td><form:label path="name"><spring:message code="label.transportName"/></form:label></td>
         <td><form:input path="name" id="name"/></td>
         <td><form:errors path="name" /></td>
@@ -55,14 +60,16 @@
 <table class="data">
 <tr>
 	<th><spring:message code="label.route"/></th>
+	<th><spring:message code="label.carNumber"/></th>
     <th><spring:message code="label.transportName"/></th>
     <th><spring:message code="label.transportDescription"/></th>
 </tr>
 	<c:forEach items="${transportList}" var="transport">
 			<td>${transport.route.name}</td>
+			<td>${transport.number}</td>
 			<td>${transport.name}</td>
 			<td>${transport.description}</td>
-		 	<td><a href="removeTransport/${transport.id}.html"><spring:message code="label.removeTransport"/></a></td>
+		 	<td><a href="removeTransport/${transport.number}.html"><spring:message code="label.removeTransport"/></a></td>
 		</tr>
 	</c:forEach>
 </table>

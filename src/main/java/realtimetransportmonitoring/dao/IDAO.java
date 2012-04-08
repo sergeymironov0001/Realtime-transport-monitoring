@@ -26,11 +26,11 @@ public interface IDAO {
 
 	public List<Transport> getAllTransports();
 
-	public Transport getTransport(String id);
+	public Transport getTransport(String number);
 
 	public void saveTransport(Transport transport);
 
-	public void removeTransport(String id);
+	public void removeTransport(String number);
 
 	public void removeTransport(Transport transport);
 }

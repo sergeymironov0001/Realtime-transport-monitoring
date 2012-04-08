@@ -79,8 +79,8 @@ class Service implements IService {
 
 	@Override
 	@Transactional
-	public void removeTransport(String transportID) {
-		getDao().removeTransport(transportID);
+	public void removeTransport(String number) {
+		getDao().removeTransport(number);
 	}
 
 	@Override
@@ -91,8 +91,8 @@ class Service implements IService {
 
 	@Override
 	@Transactional
-	public Transport getTransport(String id) {
-		return getDao().getTransport(id);
+	public Transport getTransport(String number) {
+		return getDao().getTransport(number);
 	}
 
 }

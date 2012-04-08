@@ -24,45 +24,40 @@ function createRouteConstructUrl(startPoint, finishPoint, routeType, fast) {
 }
 
 /**
-	 * ������� ���������
-	 * ��������� �� �����
-	 * 
-	 * @param routesName -
-	 *            �������� ���������
-	 * @param routesData -
-	 *            ������ ���������
-	 * @param routesDataFormat -
-	 *            ������ ������
-	 *            ��������� (��� OpenLayers.Format)
-	 * @param mapStyle -
-	 *            ����� ����������
-	 *            ��������� (��� OpenLayers.StyleMap)
-	 */
-function outputRoutes(map, routesName, routesDataUrl, routesDataFormat, mapStyle) {
-		var layer = new OpenLayers.Layer.Vector(routesName, {
-			projection : map.displayProjection,
-			strategies : [ new OpenLayers.Strategy.Fixed() ],
-			protocol : new OpenLayers.Protocol.HTTP({
-				url : routesDataUrl,
-				format : routesDataFormat
-			}),
-			styleMap : mapStyle
-		});
-		map.addLayer(layer);
+ * ������� ��������� ��������� �� �����
+ * 
+ * @param routesName -
+ *            �������� ���������
+ * @param routesData -
+ *            ������ ���������
+ * @param routesDataFormat -
+ *            ������ ������ ��������� (��� OpenLayers.Format)
+ * @param mapStyle -
+ *            ����� ���������� ��������� (��� OpenLayers.StyleMap)
+ */
+function outputRoutes(map, routesName, routesDataUrl, routesDataFormat,
+		mapStyle) {
+	var layer = new OpenLayers.Layer.Vector(routesName, {
+		projection : map.displayProjection,
+		strategies : [ new OpenLayers.Strategy.Fixed() ],
+		protocol : new OpenLayers.Protocol.HTTP({
+			url : routesDataUrl,
+			format : routesDataFormat
+		}),
+		styleMap : mapStyle
+	});
+	map.addLayer(layer);
 }
 
-
 /**
- * ������� �������� �������
- * �� �����
+ * ������� �������� ������� �� �����
  * 
  * @param routeName -
  *            �������� ��������
  * @param routesData -
  *            ������ ��������
  * @param routesDataFormat -
- *            ������ ������ ��������
- *            (��� OpenLayers.Format)
+ *            ������ ������ �������� (��� OpenLayers.Format)
  */
 function outputRoute(map, routeName, routeData, routeDataFormat) {
 	// ������� ����� ����� ���
@@ -103,31 +98,32 @@ function outputRoute(map, routeName, routeData, routeDataFormat) {
 	outputRoutes(map, routeName, routeData, routeDataFormat, styleMap);
 }
 
-
-function addPointToRoute(routePoints, point){
+function addPointToRoute(routePoints, point) {
 	routePoints.push(point);
 }
-	
-function createAddMarkerOnClickControl(map, markers){
-	var handler = function(control, evt){
-			var point = convertViewPortPositionToMapPosition(map, evt.xy)
-			var marker = createMarker(map, 12, point);
-			addMarker(marker, markers);
-			control.deactivate();
+
+function createAddMarkerOnClickControl(map, markers) {
+	var handler = function(control, evt) {
+		var point = convertViewPortPositionToMapPosition(map, evt.xy)
+		var marker = createMarker(map, 12, point);
+		addMarker(marker, markers);
+		control.deactivate();
 	}
 	return createOneClickControl(handler);
 }
 
-function createAddPointToRouteOnClickControl(map, routePoints){
-	var handler = function(control, evt){
+function createAddPointToRouteOnClickControl(map, routePoints) {
+	var handler = function(control, evt) {
 		var point = convertViewPortPositionToMapPosition(map, evt.xy)
 		addPointToRoute(routePoints, point);
-		control.deactivate();		
-		if(routePoints.length > 1){
-			var url = createRouteConstructUrl( routePoints[routePoints.length - 2],
-										routePoints[routePoints.length - 1], "foot", "true");
-			outputRoute(map, "Path from: " + (routePoints.length - 1) + " to: " + routePoints.length, url, new OpenLayers.Format.KML());
+		control.deactivate();
+		if (routePoints.length > 1) {
+			var url = createRouteConstructUrl(
+					routePoints[routePoints.length - 2],
+					routePoints[routePoints.length - 1], "motorcar", "true");
+			outputRoute(map, "Path from: " + (routePoints.length - 1) + " to: "
+					+ routePoints.length, url, new OpenLayers.Format.KML());
 		}
-	} 
+	}
 	return createOneClickControl(handler);
 }

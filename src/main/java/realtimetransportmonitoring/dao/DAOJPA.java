@@ -83,8 +83,8 @@ public class DAOJPA implements IDAO {
 	}
 
 	@Override
-	public void removeTransport(String id) {
-		removeTransport(getTransport(id));
+	public void removeTransport(String number) {
+		removeTransport(getTransport(number));
 	}
 
 	@Override
@@ -93,9 +93,9 @@ public class DAOJPA implements IDAO {
 	}
 
 	@Override
-	public Transport getTransport(String id) {
+	public Transport getTransport(String number) {
 		Transport transport = (Transport) sessionFactory.getCurrentSession()
-				.load(Transport.class, UUID.fromString(id));
+				.load(Transport.class, UUID.fromString(number));
 		return transport;
 	}
 

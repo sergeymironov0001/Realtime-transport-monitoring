@@ -41,7 +41,7 @@ public class XMLUtils {
 		String result = new String(
 				"<object id=\"%1\" routeID=\"%2\"  lon=\"%3\" lat=\"%4\" name=\"%5\" description=\"%6\" />");
 		result = StringUtils.replaceSubstring(result, "%1",
-				String.valueOf(transport.getId()));
+				String.valueOf(transport.getNumber()));
 		result = StringUtils.replaceSubstring(result, "%2",
 				String.valueOf(transport.getRoute().getId()));
 		if (transport.getPosition() != null) {

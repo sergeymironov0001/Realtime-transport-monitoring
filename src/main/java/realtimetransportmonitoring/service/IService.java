@@ -24,11 +24,11 @@ public interface IService {
 
 	public List<Transport> getAllTransports();
 
-	public Transport getTransport(String id);
+	public Transport getTransport(String number);
 
 	public void saveTransport(Transport transport);
 
 	public void removeTransport(Transport transport);
 
-	public void removeTransport(String transportID);
+	public void removeTransport(String number);
 }

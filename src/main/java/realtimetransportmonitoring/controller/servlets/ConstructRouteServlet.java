@@ -36,7 +36,10 @@ public class ConstructRouteServlet extends HttpServlet {
 		String routeData = "";
 		switch (constructRouteRequest.getType()) {
 		case FOOT:
-			routeData = constructFootRoute(constructRouteRequest);
+			routeData = constructRoute(constructRouteRequest);
+			break;
+		case MOTORCAR:
+			routeData = constructRoute(constructRouteRequest);
 			break;
 		default:
 			break;
@@ -46,12 +49,12 @@ public class ConstructRouteServlet extends HttpServlet {
 	}
 
 	/**
-	 * Функция прокладывающая пешеходные маршруты
+	 * Функция прокладывающая маршруты
 	 * 
 	 * @param routeRequest
 	 * @return
 	 */
-	private String constructFootRoute(ConstructRouteData routeRequest) {
+	private String constructRoute(ConstructRouteData routeRequest) {
 		String result = "";
 		String yoursAPIRouteConstructRequest = YOURS_API_URL;
 

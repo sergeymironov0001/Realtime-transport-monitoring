@@ -1,7 +1,5 @@
 package realtimetransportmonitoring.domain;
 
-import java.util.UUID;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,8 +21,8 @@ import javax.persistence.Transient;
 @Table(name = "transports")
 public class Transport {
 	@Id
-	@Column(name = "id")
-	private UUID id;
+	@Column(name = "number")
+	private String number;
 
 	/**
 	 * Имя транспортного средства
@@ -57,17 +55,26 @@ public class Transport {
 	private String routeID;
 
 	public Transport() {
-		id = UUID.randomUUID();
+		// id = UUID.randomUUID();
+		number = new String();
 		name = new String();
 		description = new String();
 	}
 
-	public String getId() {
-		return id.toString();
+	// public String getId() {
+	// return id.toString();
+	// }
+	//
+	// public void setId(String id) {
+	// this.id = UUID.fromString(id);
+	// }
+
+	public String getNumber() {
+		return number;
 	}
 
-	public void setId(String id) {
-		this.id = UUID.fromString(id);
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	public Route getRoute() {
