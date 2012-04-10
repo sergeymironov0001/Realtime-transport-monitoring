@@ -4,6 +4,7 @@ import java.util.List;
 
 import realtimetransportmonitoring.domain.Route;
 import realtimetransportmonitoring.domain.Transport;
+import realtimetransportmonitoring.domain.yours.YOURSRouteFile;
 
 /**
  * Интерфейс сервиса
@@ -31,4 +32,10 @@ public interface IService {
 	public void removeTransport(Transport transport);
 
 	public void removeTransport(String number);
+
+	public void saveYOURSRouteKML(YOURSRouteFile yoursRouteKML);
+
+	public YOURSRouteFile getYOURSRouteKML(String id);
+
+	public void removeYOURSRouteKML(String id);
 }

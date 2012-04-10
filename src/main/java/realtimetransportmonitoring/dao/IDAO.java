@@ -4,6 +4,7 @@ import java.util.List;
 
 import realtimetransportmonitoring.domain.Route;
 import realtimetransportmonitoring.domain.Transport;
+import realtimetransportmonitoring.domain.yours.YOURSRouteFile;
 
 /**
  * Интерфейс, описывающий классы слоя доступа к объектам
@@ -33,4 +34,12 @@ public interface IDAO {
 	public void removeTransport(String number);
 
 	public void removeTransport(Transport transport);
+
+	public void saveYOURSRouteKML(YOURSRouteFile yoursRouteKML);
+
+	public YOURSRouteFile getYOURSRouteKML(String id);
+
+	public void removeYOURSRouteKML(String id);
+
+	public void removeYOURSRouteKML(YOURSRouteFile yoursRouteKML);
 }

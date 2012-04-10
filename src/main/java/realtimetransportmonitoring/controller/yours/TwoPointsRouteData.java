@@ -1,12 +1,9 @@
-package realtimetransportmonitoring.controller.servlets;
+package realtimetransportmonitoring.controller.yours;
 
 import javax.servlet.http.HttpServletRequest;
 
 import realtimetransportmonitoring.domain.Point;
 import realtimetransportmonitoring.domain.RouteType;
-
-
-
 
 /**
  * Класс предоставляющий данные для прокладки маршрута
@@ -14,14 +11,14 @@ import realtimetransportmonitoring.domain.RouteType;
  * @author Mironov S.V.
  * @since 25.03.2012
  */
-public class ConstructRouteData {
+public class TwoPointsRouteData {
 	private Point start;
 	private Point finish;
 	private RouteType type;
 	private boolean isFast;
 
-	public static ConstructRouteData create(HttpServletRequest request) {
-		ConstructRouteData result = new ConstructRouteData();
+	public static TwoPointsRouteData create(HttpServletRequest request) {
+		TwoPointsRouteData result = new TwoPointsRouteData();
 
 		// TODO добавить обработку ошибок
 		Point startPoint = new Point(Double.valueOf(request
@@ -42,9 +39,17 @@ public class ConstructRouteData {
 		return result;
 	}
 
-	public ConstructRouteData() {
-		start = new Point();
-		finish = new Point();
+	public TwoPointsRouteData() {
+		setStart(new Point());
+		setFinish(new Point());
+	}
+
+	public TwoPointsRouteData(Point start, Point finish, RouteType routeType,
+			boolean isFast) {
+		setStart(start);
+		setFinish(finish);
+		setType(routeType);
+		setFast(isFast);
 	}
 
 	public Point getStart() {

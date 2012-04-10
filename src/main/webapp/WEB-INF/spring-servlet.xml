@@ -57,6 +57,7 @@
 				<value>realtimetransportmonitoring.domain.Route</value>
 				<value>realtimetransportmonitoring.domain.Point</value>
 				<value>realtimetransportmonitoring.domain.Transport</value>
+				<value>realtimetransportmonitoring.domain.yours.YOURSRouteFile</value>
 			</list>
 		</property>
 		<property name="annotatedPackages">

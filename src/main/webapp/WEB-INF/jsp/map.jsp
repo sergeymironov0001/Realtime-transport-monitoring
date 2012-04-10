@@ -49,7 +49,7 @@
 
 	<center>
 		<div id="controls">
-			<input type="button" value="Add marker" id="addMarkerButton"/>
+			<input type="button" value="Add marker" id="addMarkerButton"s/>
 			<input type="button" value="Construct foot trace" id="constructFootTrace"/>
 			<input type="button" value="Construct bicycle trace" id="constructBicycleTrace"/>
 			<input type="button" value="Construct car trace" id="constructCarTrace"/>  

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import realtimetransportmonitoring.domain.Route;
 import realtimetransportmonitoring.domain.Transport;
+import realtimetransportmonitoring.domain.yours.YOURSRouteFile;
 
 /**
  * Класс слоя доступа к объектам, основанный на JPA
@@ -99,4 +100,26 @@ public class DAOJPA implements IDAO {
 		return transport;
 	}
 
+	@Override
+	public void saveYOURSRouteKML(YOURSRouteFile yoursRouteKML) {
+		sessionFactory.getCurrentSession().save(yoursRouteKML);
+
+	}
+
+	@Override
+	public YOURSRouteFile getYOURSRouteKML(String id) {
+		YOURSRouteFile yoursRouteKML = (YOURSRouteFile) sessionFactory
+				.getCurrentSession().load(YOURSRouteFile.class,
+						UUID.fromString(id));
+		return yoursRouteKML;
+	}
+
+	@Override
+	public void removeYOURSRouteKML(String id) {
+		removeYOURSRouteKML(getYOURSRouteKML(id));
+	}
+
+	public void removeYOURSRouteKML(YOURSRouteFile yoursRouteKML) {
+		sessionFactory.getCurrentSession().delete(yoursRouteKML);
+	}
 }

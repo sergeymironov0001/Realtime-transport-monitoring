@@ -1,16 +1,14 @@
 package realtimetransportmonitoring.controller.servlets;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import realtimetransportmonitoring.controller.yours.ConstructRouteKML;
+import realtimetransportmonitoring.controller.yours.TwoPointsRouteData;
 
 /**
  * Сервлет обрабатывающий запросы на прокладку маршрутов
@@ -19,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 25.03.2012
  */
 public class ConstructRouteServlet extends HttpServlet {
-	private static final String YOURS_API_URL = "http://www.yournavigation.org/api/1.0/gosmore.php?";
+
 	private static final long serialVersionUID = 4947015484729937749L;
 
 	public ConstructRouteServlet() {
@@ -30,16 +28,18 @@ public class ConstructRouteServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		ConstructRouteData constructRouteRequest = ConstructRouteData
+		TwoPointsRouteData constructRouteRequest = TwoPointsRouteData
 				.create(request);
 
 		String routeData = "";
 		switch (constructRouteRequest.getType()) {
 		case FOOT:
-			routeData = constructRoute(constructRouteRequest);
+			routeData = ConstructRouteKML.constructTwoPointsRouteKML(
+					constructRouteRequest).getText();
 			break;
 		case MOTORCAR:
-			routeData = constructRoute(constructRouteRequest);
+			routeData = ConstructRouteKML.constructTwoPointsRouteKML(
+					constructRouteRequest).getText();
 			break;
 		default:
 			break;
@@ -48,51 +48,4 @@ public class ConstructRouteServlet extends HttpServlet {
 		response.getWriter().write(routeData);
 	}
 
-	/**
-	 * Функция прокладывающая маршруты
-	 * 
-	 * @param routeRequest
-	 * @return
-	 */
-	private String constructRoute(ConstructRouteData routeRequest) {
-		String result = "";
-		String yoursAPIRouteConstructRequest = YOURS_API_URL;
-
-		// Формируем запрос к сервису YOURS
-		yoursAPIRouteConstructRequest += "format=kml";
-		yoursAPIRouteConstructRequest += "&flat="
-				+ routeRequest.getStart().getLat();
-		yoursAPIRouteConstructRequest += "&flon="
-				+ routeRequest.getStart().getLon();
-		yoursAPIRouteConstructRequest += "&tlat="
-				+ routeRequest.getFinish().getLat();
-		yoursAPIRouteConstructRequest += "&tlon="
-				+ routeRequest.getFinish().getLon();
-		yoursAPIRouteConstructRequest += "&v="
-				+ routeRequest.getType().toString().toLowerCase();
-		yoursAPIRouteConstructRequest += "&fast="
-				+ (routeRequest.isFast() ? 1 : 0);
-		yoursAPIRouteConstructRequest += "&layer=mapnik";
-
-		URL url;
-
-		// Отсылаем запрос к сервису YOURS и обрабатываем ответ
-		try {
-			url = new URL(yoursAPIRouteConstructRequest);
-			URLConnection connection = url.openConnection();
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					connection.getInputStream()));
-			String inputLine;
-			while ((inputLine = in.readLine()) != null) {
-				result += inputLine + System.getProperty("line.separator");
-			}
-			in.close();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return result;
-	}
 }

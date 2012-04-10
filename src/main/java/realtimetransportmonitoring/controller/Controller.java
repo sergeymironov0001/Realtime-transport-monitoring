@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import realtimetransportmonitoring.controller.yours.ConstructRouteKML;
 import realtimetransportmonitoring.domain.Point;
 import realtimetransportmonitoring.domain.Route;
 import realtimetransportmonitoring.domain.Transport;
@@ -72,8 +73,28 @@ public class Controller {
 			BindingResult result) {
 
 		getService().saveRoute(route);
+		getService().saveYOURSRouteKML(
+				ConstructRouteKML.constructRouteKML(route));
 
 		return "redirect:/routesManager";
+	}
+
+	// @RequestMapping(value = "/saveRoute", method = RequestMethod.GET)
+	// public ModelAndView ssaveRoute(@ModelAttribute("route") Route route,
+	// BindingResult result) {
+	//
+	// // getService().saveRoute(route);
+	// // getService().saveYOURSRouteKML(
+	// ;
+	//
+	// return new ModelAndView("routeKML", "routeKML", ConstructRouteKML
+	// .constructRouteKML(route).getText());
+	// }
+
+	@RequestMapping("/getRouteKML/{routeID}")
+	public ModelAndView getRouteKML(@PathVariable("routeID") String routeID) {
+		String kmlText = getService().getYOURSRouteKML(routeID).getText();
+		return new ModelAndView("routeKML", "routeKML", kmlText);
 	}
 
 	@RequestMapping("/removeRoute/{routeID}")

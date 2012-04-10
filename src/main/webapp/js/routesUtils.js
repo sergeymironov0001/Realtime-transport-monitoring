@@ -98,6 +98,22 @@ function outputRoute(map, routeName, routeData, routeDataFormat) {
 	outputRoutes(map, routeName, routeData, routeDataFormat, styleMap);
 }
 
+function removeRouteFromMap(map, routeName){
+	var layers = map.getLayersByName(routeName);
+	for(var i = 0; i < layers.length; i++){
+		 map.removeLayer(layers[i], null);
+	}
+}
+
+function isRouteAlreadyOnMap(map, routeName){
+	var layers = map.getLayersByName(routeName);
+	var layer = findElement(layers, "name", routeName);
+	if(layer == null){
+		return false;
+	}
+	return true;
+}
+
 function addPointToRoute(routePoints, point) {
 	routePoints.push(point);
 }

@@ -79,6 +79,8 @@
 	var UPDATE_OBJECTS_POSITION_TIMEOUT = 1000;
 	var UPDATE_OBJECTS_POSITION_URL = "http://localhost:8080/Realtime-transport-monitoring/getAllTransportData.html";
 
+	var routesKML;
+	
 	var startTracePoint;
 	var finishTracePoint;
 	var constructRouteType;
@@ -156,7 +158,6 @@
 	}
 
 	function initControls() {
-
 		// showClickCoordinatesControl =
 		// createShowClickCoordinatesControl(alert);
 
@@ -239,13 +240,16 @@
 
 		setTimeout(getNewObjectsPosition, UPDATE_OBJECTS_POSITION_TIMEOUT);
 	}
-
+	
 	// ������� ���������� �����
 	// �������� ��������
 	window.onload = function() {
 		initOSMMap();
 		initControls();
 
+		
+		routesKML = new Array();
+		
 		// get markers position
 		setTimeout(getNewObjectsPosition, UPDATE_OBJECTS_POSITION_TIMEOUT);
 
