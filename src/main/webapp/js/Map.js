@@ -73,6 +73,11 @@
 // �����
 
 //}
+
+function setVisibleRouteTrace(routeID, visible){
+	setVisibleRouteTraceOnMap(map, routeID, visible);
+}
+
 (function() {
 	// Objects position ajax requester
 	var objectsPositionAjaxRequester;
@@ -94,11 +99,6 @@
 	var startTracePosition;
 	var finishTracePosition;
 	// ------------------------------------
-
-	function outputMessage(message) {
-		var out = document.getElementById("output");
-		out.innerHTML = message;
-	}
 
 	function createAddFinishTraceMarkerOnClickControl() {
 		var handler = function(control, evt) {
@@ -246,12 +246,11 @@
 	window.onload = function() {
 		initOSMMap();
 		initControls();
-
 		
-		routesKML = new Array();
+		//routesKML = new Array();
 		
 		// get markers position
-		setTimeout(getNewObjectsPosition, UPDATE_OBJECTS_POSITION_TIMEOUT);
+		//setTimeout(getNewObjectsPosition, UPDATE_OBJECTS_POSITION_TIMEOUT);
 
 		// moveMarker();
 

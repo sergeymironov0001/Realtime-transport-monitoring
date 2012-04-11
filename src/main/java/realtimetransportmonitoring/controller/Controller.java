@@ -1,8 +1,11 @@
 package realtimetransportmonitoring.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -92,9 +95,13 @@ public class Controller {
 	// }
 
 	@RequestMapping("/getRouteKML/{routeID}")
-	public ModelAndView getRouteKML(@PathVariable("routeID") String routeID) {
-		String kmlText = getService().getYOURSRouteKML(routeID).getText();
-		return new ModelAndView("routeKML", "routeKML", kmlText);
+	public void getRouteKML(@PathVariable("routeID") String routeID,
+			HttpServletResponse response) {
+		try {
+			response.getWriter().write(
+					getService().getYOURSRouteKML(routeID).getText());
+		} catch (IOException ex) {
+		}
 	}
 
 	@RequestMapping("/removeRoute/{routeID}")

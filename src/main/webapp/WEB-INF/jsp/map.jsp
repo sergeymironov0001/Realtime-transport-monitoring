@@ -41,7 +41,7 @@
 	<table class="data">
 	<c:forEach items="${routeList}" var="route">
 	<tr>
-			<td><input type="checkbox" name="${route.id}" id="${route.id}">${route.name}</td>
+			<td><input type="checkbox" name="${route.name}" id="${route.id}" onClick="setVisibleRouteTrace(this.id, this.checked);">${route.name}</td>
 	</tr>
 	</c:forEach>
 	</table>

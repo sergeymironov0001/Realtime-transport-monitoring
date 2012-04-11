@@ -44,8 +44,6 @@
 			<td>${route.description}</td>
 		 <td><a href="removeRoute/${route.id}.html"><spring:message code="label.removeRoute"/></a></td>
 		</tr>
-		
-		
 	</c:forEach>
 </table>
 </c:if>

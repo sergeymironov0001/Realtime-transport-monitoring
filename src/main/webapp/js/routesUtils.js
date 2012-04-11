@@ -98,16 +98,16 @@ function outputRoute(map, routeName, routeData, routeDataFormat) {
 	outputRoutes(map, routeName, routeData, routeDataFormat, styleMap);
 }
 
-function removeRouteFromMap(map, routeName){
-	var layers = map.getLayersByName(routeName);
+function removeRouteFromMap(map, routeID){
+	var layers = map.getLayersByName(routeID);
 	for(var i = 0; i < layers.length; i++){
 		 map.removeLayer(layers[i], null);
 	}
 }
 
-function isRouteAlreadyOnMap(map, routeName){
-	var layers = map.getLayersByName(routeName);
-	var layer = findElement(layers, "name", routeName);
+function isRouteAlreadyOnMap(map, routeID){
+	var layers = map.getLayersByName(routeID);
+	var layer = findElement(layers, "name", routeID);
 	if(layer == null){
 		return false;
 	}
@@ -142,4 +142,16 @@ function createAddPointToRouteOnClickControl(map, routePoints) {
 		}
 	}
 	return createOneClickControl(handler);
+}
+
+function setVisibleRouteTraceOnMap(map, routeID, visible){
+	if(visible){
+		var OBJECT_ROUTE_TRACE_KML_URL = "http://localhost:8080/Realtime-transport-monitoring/getRouteKML/" + routeID + ".html";
+		outputRoute(map, routeID, OBJECT_ROUTE_TRACE_KML_URL, new OpenLayers.Format.KML());
+	}		
+	else{
+		if(isRouteAlreadyOnMap(map, routeID)){
+			removeRouteFromMap(map, routeID);
+		}
+	}
 }

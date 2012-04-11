@@ -107,7 +107,9 @@ class Service implements IService {
 	@Override
 	@Transactional
 	public YOURSRouteFile getYOURSRouteKML(String id) {
-		return getDao().getYOURSRouteKML(id);
+		YOURSRouteFile result = getDao().getYOURSRouteKML(id);
+		result.getText();
+		return result;
 	}
 
 	@Override

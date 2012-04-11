@@ -12,8 +12,8 @@
 	}
 	
 	window.onload = function() {
-		routePoints = new Array();
-		initOSMMap();
-		initControls();
+		//routePoints = new Array();
+		//initOSMMap();
+		//initControls();
 	}
 })();

@@ -108,9 +108,14 @@ public class DAOJPA implements IDAO {
 
 	@Override
 	public YOURSRouteFile getYOURSRouteKML(String id) {
-		YOURSRouteFile yoursRouteKML = (YOURSRouteFile) sessionFactory
-				.getCurrentSession().load(YOURSRouteFile.class,
-						UUID.fromString(id));
+		YOURSRouteFile yoursRouteKML = null;
+		try {
+			yoursRouteKML = (YOURSRouteFile) sessionFactory.getCurrentSession()
+					.load(YOURSRouteFile.class, UUID.fromString(id));
+
+		} catch (org.hibernate.ObjectNotFoundException ex) {
+
+		}
 		return yoursRouteKML;
 	}
 
@@ -119,7 +124,10 @@ public class DAOJPA implements IDAO {
 		removeYOURSRouteKML(getYOURSRouteKML(id));
 	}
 
+	@Override
 	public void removeYOURSRouteKML(YOURSRouteFile yoursRouteKML) {
-		sessionFactory.getCurrentSession().delete(yoursRouteKML);
+		if (yoursRouteKML != null) {
+			sessionFactory.getCurrentSession().delete(yoursRouteKML);
+		}
 	}
 }
